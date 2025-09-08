@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { inputs, config, pkgs, ... }:
 
 {
@@ -34,15 +30,10 @@
   networking = {
     hostName = "nixos";
     networkmanager.enable = true;
-    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-    # Configure network proxy if necessary
-    # networking.proxy.default = "http://user:password@proxy:port/";
-    # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
   };
 
 
   ## Fontes ##
-  # Isso habilita o subpixel RGB, que melhora a nitidez em monitores LCD.
 
   fonts = {
     fontconfig.subpixel.lcdfilter = "light";
@@ -150,9 +141,9 @@
   #Bluetooth
   bluez
   bluez-tools
-  kdePackages.bluedevil   # integração com KDE
-  kdePackages.bluez-qt           # bindings BlueZ para Qt6
-  kdePackages.plasma-nm          # garante integração de rede (às vezes falta)
+  kdePackages.bluedevil
+  kdePackages.bluez-qt   
+  kdePackages.plasma-nm      
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
