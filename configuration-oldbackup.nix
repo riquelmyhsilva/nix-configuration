@@ -10,83 +10,48 @@
       ./hardware-configuration.nix
     ];
 
-  ## Bootloader ##
-  boot.loader = {
-    systemd-boot.enable = false;
-    efi.canTouchEfiVariables = true;
-    #Grub
-    grub = {
-      enable = true;
-      efiSupport = true;
-      device = "nodev";
-      useOSProber = true;
-    };
-    #Tema
-    grub2-theme = {
-        enable = true;
-        theme = "whitesur";
-        footer = true;
-        customResolution = "1920x1080";
-    };
+  # Bootloader.
+  boot.loader.systemd-boot.enable = false;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.loader.grub.enable = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.useOSProber = true;
+  boot.loader.grub2-theme = {
+    enable = true;
+    theme = "whitesur";
+    footer = true;
+    customResolution = "1920x1080";  # Optional: Set a custom resolution
   };
 
-  ## Hostname e rede ##
-  networking = {
-    hostName = "nixos";
-    networkmanager.enable = true;
-    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-    # Configure network proxy if necessary
-    # networking.proxy.default = "http://user:password@proxy:port/";
-    # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  };
+  networking.hostName = "nixos"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  ## Fontes ##
-  # Isso habilita o subpixel RGB, que melhora a nitidez em monitores LCD.
+  # Enable networking
+  networking.networkmanager.enable = true;
 
-  fonts = {
-    fontconfig.subpixel.lcdfilter = "light";
-    fontconfig.antialias = true;
-    fontconfig.hinting.style = "slight"; # ou "full"
-    fontconfig.hinting.enable = true;
-    packages = with pkgs; [
-      jetbrains-mono
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-emoji
-      liberation_ttf
-      fira-code
-      fira-code-symbols
-      mplus-outline-fonts.githubRelease
-      dina-font
-      proggyfonts
-      nerd-fonts.fira-code
-      nerd-fonts.droid-sans-mono
-      nerd-fonts.jetbrains-mono
-    ];
-  };
-
-  ## Localização ##
+  # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
-  i18n = {
-  defaultLocale = "pt_BR.UTF-8";
-  supportedLocales = [
-    "en_US.UTF-8/UTF-8"
-    "pt_BR.UTF-8/UTF-8"
-  ];
-  extraLocaleSettings = {
-    LC_ADDRESS = "pt_BR.UTF-8";
-    LC_IDENTIFICATION = "pt_BR.UTF-8";
-    LC_MEASUREMENT = "pt_BR.UTF-8";
-    LC_MONETARY = "pt_BR.UTF-8";
-    LC_NAME = "pt_BR.UTF-8";
-    LC_NUMERIC = "pt_BR.UTF-8";
-    LC_PAPER = "pt_BR.UTF-8";
-    LC_TELEPHONE = "pt_BR.UTF-8";
-    LC_TIME = "pt_BR.UTF-8";
-    };
-  };
 
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "en_US.UTF-8";
+    LC_IDENTIFICATION = "en_US.UTF-8";
+    LC_MEASUREMENT = "en_US.UTF-8";
+    LC_MONETARY = "en_US.UTF-8";
+    LC_NAME = "en_US.UTF-8";
+    LC_NUMERIC = "en_US.UTF-8";
+    LC_PAPER = "en_US.UTF-8";
+    LC_TELEPHONE = "en_US.UTF-8";
+    LC_TIME = "en_US.UTF-8";
+  };
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
@@ -95,9 +60,6 @@
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
-
-  # Hyprland
-  programs.hyprland.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -141,44 +103,25 @@
     ];
   };
 
-#   home-manager = {
-#     specialArgs = { inherit inputs; };
-#     users = {
-#         "rqxm" = import ./home.nix;
-#       };
-#   };
-
   # Install firefox.
   programs.firefox.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  vim
-  google-chrome
-  brave
+  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
   obsidian
   git
   kitty
   fastfetch
   os-prober
-  vscode
-  #Bluetooth
+  #bluetooth
   bluez
   bluez-tools
   kdePackages.bluedevil   # integração com KDE
   kdePackages.bluez-qt           # bindings BlueZ para Qt6
-  kdePackages.plasma-nm          # garante integração de rede
-  stow
-  devenv
-  obs-studio
-  docker
-  neovim
-  home-manager
-  hyprland
-  waybar
-  wofi
-  nwg-look
+  kdePackages.plasma-nm          # garante integração de rede (às vezes falta)
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
